@@ -45,20 +45,20 @@ public:
 
 	//시뮬레이션 실행.
 	void run() {
-		int clock = 0;
-		int serviceTime = -1;
+		int clock = 0;					//현재 시각.
+		int serviceTime = -1;			//처리에 걸리는 잔여 시간.
 		while (clock < nSimulation) {
 			clock++;
 			printf("현재시각 = %d\n", clock);
 
-			if (IsNewCustomer())
+			if (IsNewCustomer())			//새로운 고객이 도책했으면 큐에 삽입.
 				InsertCustomer(clock);
-			if (serviceTime > 0) serviceTime--;
+			if (serviceTime > 0) serviceTime--;			//현재 고객 서비스 중.
 			else {
-				if (que.isEmpty()) continue;
-				Customer a = que.dequeue();
-				nServedCustomers++;
-				totalWaitTime += clock - a.tArrival;
+				if (que.isEmpty()) continue;			//기다리는 고객 없음.
+				Customer a = que.dequeue();				//새로 서비스 할 고객.
+				nServedCustomers++;						//서비스한 고객 수.
+				totalWaitTime += clock - a.tArrival;	//총 대기시간.
 				printf("고객 %d 서비스 시작 (대기시간:%d분)\n", a.id, clock - a.tArrival);
 				serviceTime = a.tService - 1;
 			}
