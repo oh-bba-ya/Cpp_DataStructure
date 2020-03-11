@@ -7,7 +7,7 @@ double power(double x, int n) {
 	else if ((n % 2) == 0)							// N이 짝수인경우.
 		return power(x * x, n / 2);					// 순환을 호출하는 부분.
 	else
-		return x * power(x * x, (n - 1) / 2);			// N이 홀수인경우. 순환을 호출하는 부분.
+		return x * power(x * x, (n - 1) / 2);			// N이 홀수인경우. 순환을 호출하는 부분. (꼬리 순환)
 		
 }
 
