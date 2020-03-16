@@ -1,5 +1,6 @@
 #pragma once
 #include "BinaryNode.h"
+#include "CircularQueue.h"
 
 
 class BinaryTree {
@@ -40,10 +41,56 @@ public:
 			printf(" [%c] ", node->getData());
 		}
 	}
-	void levelorder();
+
+	// 이진트리의 레벨 순회 연산.
+	void levelorder() {
+		printf("\nlevelorder: ");
+		if (!isEmpty()) {
+			CircularQueue q;
+			q.enqueue(root);
+			while (!q.isEmpty()) {
+				BinaryNode* n = q.dequeue();
+				if (n != NULL) {
+					printf(" [%c] ", n->getData());
+					q.enqueue(n->getLeft());
+					q.enqueue(n->getRight());
+				}
+			}
+		}
+		printf("\n");
+	}
 
 	// 이진트리의 추가 연산.
-	int getCount();
-	int getHeight();
-	int getLeafCount();
+
+	// 트리의 노드 개수를 구하는 함수.
+	int getCount() { return isEmpty() ? 0 : getCount(root); }
+	// 순환 호출에 의해 node를 루트로 하는 서브트리의 노드 수 계산 함수.
+	int getCount(BinaryNode* node) {
+		if (node == NULL) return 0;
+		return 1 + getCount(node->getLeft())
+			+ getCount(node->getRight());
+	}
+
+
+	// 트리의 높이를 구하는 함수.
+	int getHeight() { return isEmpty() ? 0 : getHeight(root); }
+
+	// 순환 호출에 의해 node를 루트로 하는 서브트리의 높이 계산 함수.
+	int getHeight(BinaryNode* node) {
+		if (node == NULL) return 0;
+		int hLeft = getHeight(node->getLeft());
+		int hRight = getHeight(node->getRight());
+		return (hLeft > hRight) ? hLeft + 1 : hRight + 1;
+	}
+
+	// 트리의 단말 노드 개수를 구하는 함수.
+	int getLeafCount() { return isEmpty() ? 0 : getLeafCount(root); }
+
+	// 순환 호출에 의해 node를 루트로 하는 서브트리의 단말 노드 수 계산 함수.
+	int getLeafCount(BinaryNode* node) {
+		if (node == NULL) return 0;
+		if (node->isLeaf()) return 1;
+		else return getLeafCount(node->getLeft())
+			+ getLeafCount(node->getRight());
+	}
 };
