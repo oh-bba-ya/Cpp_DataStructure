@@ -13,4 +13,8 @@ void main() {
 	tree.preorder();
 	tree.postorder();
 	printf("\n");
+	tree.levelorder();
+	printf(" 노드의 개수 = %d\n", tree.getCount());
+	printf(" 단말의 개수 = %d\n", tree.getLeafCount());
+	printf(" 트리의 높이 = %d\n", tree.getHeight());
 }
